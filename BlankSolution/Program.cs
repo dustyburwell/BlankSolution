@@ -27,6 +27,7 @@ namespace BlankSolution
             {
                Console.WriteLine("There's a file named " + sln.Name + ", overwrite? (y/n)");
                var key = Console.ReadKey();
+               Console.WriteLine();
 
                if (key.KeyChar == 'n')
                   return;
@@ -37,7 +38,8 @@ namespace BlankSolution
 
          try
          {
-            File.WriteAllText(slnName, SolutionPattern);
+            File.WriteAllBytes(slnName, new byte [] { 0xEF, 0xBB, 0xBF });
+            File.AppendAllText(slnName, SolutionPattern);
          }
          catch (Exception)
          {
@@ -50,8 +52,8 @@ namespace BlankSolution
          Console.WriteLine("Usage: blanksolution.exe <solution name>");
       }
 
-      private static string SolutionPattern = @"
-Microsoft Visual Studio Solution File, Format Version 11.00
+      private static string SolutionPattern = "\r\n" +
+@"Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Global
 	GlobalSection(SolutionProperties) = preSolution
